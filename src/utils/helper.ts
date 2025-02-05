@@ -2,22 +2,22 @@ import { StepsTypes } from "./types";
 
 export const Steps : StepsTypes[] = [
     {
-        label:"Information",
+        label:"Bio",
         href:"/formlayout/info",
         success:true,
     },
     {
-        label:"Address",
+        label:"Addr.",
         href:"/formlayout/address",
         success:false,
     },
     {
-        label:"Employment",
+        label:"Emp.",
         href:"/formlayout/employment",
         success:false,
     },
     {
-        label:"Education",
+        label:"Edu.",
         href:"/formlayout/education",
         success:false,
     },
@@ -27,7 +27,7 @@ export const Steps : StepsTypes[] = [
         success:false,
     },
     {
-        label:"Additional Information",
+        label:"More",
         href:"/formlayout/addinfo",
         success:false,
     },
@@ -37,3 +37,18 @@ export const Steps : StepsTypes[] = [
         success:false,
     },
 ];
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const debounce = <F extends (...args: any[]) => any>(
+    func: F,
+    wait: number
+  ): ((...args: Parameters<F>) => void) => {
+    let timeout: ReturnType<typeof setTimeout> | null = null;
+  
+    return (...args: Parameters<F>): void => {
+      if (timeout !== null) {
+        clearTimeout(timeout);
+      }
+      timeout = setTimeout(() => func(...args), wait);
+    };
+};

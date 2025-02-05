@@ -16,6 +16,17 @@ export interface ButtonProps extends PropsWithChildren {
     type?: 'button' | 'submit' | 'reset';
 };
 
+export interface InputProps {
+    name?: string;
+    label?: string;
+    type?: 'text' | 'number' | 'email' | 'password' | 'file' | 'url' | 'date';
+    placeholder?: string;
+    className?: string;
+    size?: 'sm' | 'md' | 'lg';
+    value?: string | number;
+    onChange?: (event: React.FormEvent<HTMLInputElement>) => void;
+}
+
 export interface StepsTypes {
     label?: string;
     href?:string;

@@ -8,14 +8,14 @@ const FormLayout = () => {
         <div className=' w-full h-14'>
           <Navbar/>
         </div>
-        <div className=' w-full h-24'>
+        <div className=' w-full h-20'>
           <Stepper />
         </div>
-        <div className=' w-full h-[calc(100vh-152px)]'>
-          <Outlet />
+        <div className=' w-full h-[calc(100vh-176px)]'>
+         <Outlet />
         </div>
     </div>
   )
 }
 
-export default FormLayout
+export default FormLayout;
