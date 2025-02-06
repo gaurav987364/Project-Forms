@@ -25,10 +25,10 @@ export interface InputProps {
     size?: 'sm' | 'md' | 'lg';
     value?: string | number;
     onChange?: (event: React.FormEvent<HTMLInputElement>) => void;
-}
+};
 
 export interface StepsTypes {
     label?: string;
     href?:string;
     success?: boolean;
-}
+};
