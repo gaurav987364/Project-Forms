@@ -30,3 +30,10 @@ input[type="date"] {
     pointer-events: none;
   }
   
+
+  body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }

@@ -19,7 +19,7 @@ const Stepper = () => {
     setCurrentStep(index + 1);
     setIsCompleted(index === Steps.length - 1);
     navigate(`${step.href}`);
-  }, [navigate]);
+    }, [navigate]);
 
   /** Memoized function to update progress bar */
   const updateProgressBarStyle = useRef(
@@ -55,6 +55,29 @@ const Stepper = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+
+  //?keyboard keys interactivity (backspace, < & >);
+  useEffect(()=>{
+    const handleInteractions = (e:KeyboardEvent)=>{
+      if(e.key === "Backspace"){
+        if(currentStep === 1) return;
+        handleControls(Steps[currentStep-2],currentStep-2);
+      }
+      if(e.key === "ArrowRight"){
+        if(currentStep === Steps.length) return;
+        handleControls(Steps[currentStep],currentStep);
+      }
+      if(e.key === "ArrowLeft"){
+        if(currentStep === 1) return;
+        handleControls(Steps[currentStep-2],currentStep-2);
+      }
+    };
+    document.addEventListener("keydown", handleInteractions);
+    return ()=>{
+      document.removeEventListener("keydown", handleInteractions);
+    };
+  },[currentStep, handleControls]);
 
   /** Memoized progress width calculation */
   const progressWidth = useMemo(
