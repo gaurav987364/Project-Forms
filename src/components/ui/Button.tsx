@@ -63,7 +63,7 @@ const Button = ({
         {!loading && startIcon && <span className="mr-1 flex items-center">{startIcon}</span>}
         {icon ? <span className="mr-1 flex items-center">{icon}</span> : null}
         {children}
-        {endIcon && <span className="ml-1 flex items-center">{endIcon}</span>}
+        {endIcon && <span className="ml-1 mt-0.5 flex items-center hover:translate-x-1 transition-transform duration-500 ease-linear">{endIcon}</span>}
       </button>
     );
   };

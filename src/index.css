@@ -8,19 +8,18 @@ input[type="date"] {
     -moz-appearance: none;
     position: relative;
     padding-right: 2.5rem; /* Space for custom icon */
-  }
+}
   
   /* Add a custom calendar icon */
-  input[type="date"]::-webkit-calendar-picker-indicator {
+input[type="date"]::-webkit-calendar-picker-indicator {
     opacity: 0; /* Hide default icon */
     position: absolute;
     right: 10px;
     width: 20px;
-    height: 20px;
-  }
+    height: 20px;}
   
   /* Use a custom SVG calendar icon */
-  input[type="date"]::after {
+input[type="date"]::after {
     content: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"%3E%3Cpath d="M3 8V20C3 21.1 3.9 22 5 22H19C20.1 22 21 21.1 21 20V8H3ZM5 10H19V20H5V10ZM7 2C6.4 2 6 2.4 6 3V5H4C2.9 5 2 5.9 2 7V9H22V7C22 5.9 21.1 5 20 5H18V3C18 2.4 17.6 2 17 2C16.4 2 16 2.4 16 3V5H8V3C8 2.4 7.6 2 7 2Z"%3E%3C/path%3E%3C/svg%3E');
     position: absolute;
     right: 12px;
@@ -28,12 +27,26 @@ input[type="date"] {
     width: 20px;
     height: 20px;
     pointer-events: none;
-  }
+}
   
 
-  body {
+body {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari, and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+  display: none;
+  }
+  /* Hide scrollbar for IE, Edge, and Firefox */
+  .no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  }
   }

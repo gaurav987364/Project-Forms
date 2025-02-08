@@ -60,10 +60,6 @@ const Stepper = () => {
   //?keyboard keys interactivity (backspace, < & >);
   useEffect(()=>{
     const handleInteractions = (e:KeyboardEvent)=>{
-      if(e.key === "Backspace"){
-        if(currentStep === 1) return;
-        handleControls(Steps[currentStep-2],currentStep-2);
-      }
       if(e.key === "ArrowRight"){
         if(currentStep === Steps.length) return;
         handleControls(Steps[currentStep],currentStep);

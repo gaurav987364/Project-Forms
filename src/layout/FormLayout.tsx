@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom'
 import Stepper from '../components/shared/Stepper'
 import Navbar from '../components/shared/Navbar'
 
+
 const FormLayout = () => {
   return (
     <div className=' relative w-full h-screen max-h-[100%] bg-slate-950 text-neutral-50'>

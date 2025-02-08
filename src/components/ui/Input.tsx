@@ -19,7 +19,7 @@ const Input:React.FC<InputProps> = ({
     const isControlled = value !== undefined && onChange !== undefined;
 
     //Currently, the component only works with react-hook-form. If someone wants to use it outside FormProvider, it will break.
-    const registerField = !isControlled ? formContext.register(name as keyof FormDataType) : undefined;
+    const registerField = !isControlled && name ? formContext.register(name as keyof FormDataType) : undefined;
 
     //all styles are
     const sizes = {
@@ -28,7 +28,7 @@ const Input:React.FC<InputProps> = ({
         lg: "w-[600px] px-3 py-2 text-lg",
     }
 
-    const baseStyles = "border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-900";
+    const baseStyles = `border rounded-sm  ${errors[name as keyof FormDataType] ? "border-red-500 focus:ring-red-300" : " focus:outline-none bg-gray-900 focus:ring-1 focus:ring-blue-500"}`;
 
     const styles = [
         baseStyles,
@@ -45,8 +45,8 @@ const Input:React.FC<InputProps> = ({
                    className={styles}
                    {...(registerField ? registerField : { value, onChange })}    
                 />
-        {errors[name as keyof FormDataType] && (
-            <p className="text-red-500">
+        {name && errors[name as keyof FormDataType] && (
+            <p className="text-red-500 text-xs font-stretch-50% font-mono mt-1">
                 {(errors[name as keyof FormDataType] as { message: string })?.message}
             </p>
         )}

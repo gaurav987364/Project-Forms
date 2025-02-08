@@ -1,4 +1,4 @@
-import { StepsTypes } from "./types";
+import { CountryStatesProps, StepsTypes } from "./types";
 
 export const Steps : StepsTypes[] = [
     {
@@ -51,4 +51,50 @@ export const debounce = <F extends (...args: any[]) => any>(
       }
       timeout = setTimeout(() => func(...args), wait);
     };
+};
+
+
+
+export const LocationData : CountryStatesProps = {
+    India:{
+        Delhi:["Delhi","Palam","Old Delhi","New Delhi"],
+        Maharashtra: ["Mumbai", "Pune", "Nagpur"],
+        Gujarat: ["Ahmedabad", "Surat", "Vadodara"],
+        Rajasthan: ["Jaipur", "Udaipur", "Ajmer"],
+        Bihar: ["Patna", "Gaya", "Muzaffarpur"],
+    },
+    USA:{
+        California:["Los Angeles", "San Francisco", "San Diego"],
+        Texas:["Houston", "Dallas", "Austin"],
+        NewYork:["New York", "Buffalo", "Rochester"],
+        Florida:["Miami", "Tallahassee", "Orlando"],
+        Virginia:["Richmond", "Charlottesville", "Chesapeake"],
+    },
+    UK:{
+        London:["London", "Birmingham", "Manchester"],
+        England:["Bristol", "Liverpool", "Cardiff"],
+        Scotland:["Edinburgh", "Glasgow", "Aberdeen"],
+        Wales:["Cardiff", "Swansea", "Neath Angon"],
+    },
+    Canada:{
+        Ontario:["Toronto", "Ottawa", "Hamilton"],
+        Quebec:["Quebec City", "Montreal", "Laval"],
+        Newfoundland:["St. John's", "Saint John's", "Sherbrooke"],
+        Manitoba:["Winnipeg", "Brandon", "Winnipeg"],
+        Alberta:["Edmonton", "Calgary", "Red Deer"],
+    },
+    France:{
+        Berlin:["Berlin", "Munich", "Cologne"],
+        Hamburg:["Hamburg", "Düsseldorf", "Köln"],
+        Bavaria:["Munich", "Hamburg", "Berlin"],
+        Saxony:["Düsseldorf", "Köln", "Munich"],
+        Brandenburg:["Berlin", "Hamburg", "Düsseldorf"],
+    },
+    Germany:{
+        Frankfurt:["Frankfurt", "Munich", "Hamburg"],
+        Nürnberg:["Nürnberg", "Munich", "Hamburg"],
+        Bavaria:["Munich", "Hamburg", "Frankfurt"],
+        Saxony:["Nürnberg", "Munich", "Hamburg"],
+        Brandenburg:["Frankfurt", "Munich", "Hamburg"],
+    },
 };

@@ -1,5 +1,4 @@
 import { PropsWithChildren } from "react";
-
 export interface ButtonProps extends PropsWithChildren {
     children: React.ReactNode;
     disabled?: boolean;
@@ -19,7 +18,7 @@ export interface ButtonProps extends PropsWithChildren {
 export interface InputProps {
     name?: string;
     label?: string;
-    type?: 'text' | 'number' | 'email' | 'password' | 'file' | 'url' | 'date';
+    type?: 'text' | 'number' | 'email' | 'password' | 'file' | 'url' | 'date' | 'select';
     placeholder?: string;
     className?: string;
     size?: 'sm' | 'md' | 'lg';
@@ -32,3 +31,13 @@ export interface StepsTypes {
     href?:string;
     success?: boolean;
 };
+
+interface StateCities {
+    [state: string]: string[];
+}
+  
+export interface CountryStatesProps {
+   [country: string]: StateCities;
+} 
+
+//? form types

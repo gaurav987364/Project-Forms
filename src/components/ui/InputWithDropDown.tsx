@@ -81,9 +81,11 @@
 import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
+import { FormDataType } from "../../schema/FormSchema";
 
 interface InputWithDropdownProps {
   name: string;
+  label:string;
   placeholder?: string;
   className?: string;
   options: string[];
@@ -93,43 +95,45 @@ interface InputWithDropdownProps {
 
 const InputWithDropdown: React.FC<InputWithDropdownProps> = ({
   name,
+  label,
   placeholder = "Enter text",
   className = "",
   options,
   defaultValue = "",
   size = "md",
 }) => {
-  const { register, setValue, watch, formState: { errors } } = useFormContext();
+  const { register, setValue, watch, formState: { errors } } = useFormContext<FormDataType>();
   const [isOpen, setIsOpen] = useState(false);
-  const value = watch(name) || defaultValue;
+  const value = watch(name as keyof FormDataType) || defaultValue;
 
   //setValue is from react-hook-form working as a state variable
   
   const sizes = {
-    sm: "w-48 p-3 text-sm",
-    md: "w-64 p-3 text-md",
-    lg: "w-80 p-3 text-lg",
+    sm: "w-[200px] px-3 py-2 text-sm",
+    md: "w-[400px] px-3 py-2 text-md",
+    lg: "w-[600px] px-3 py-2 text-lg",
   };
 
   const ListPositions = {
-    sm: "top-11",
-    md: "top-12",
-    lg: "top-14",
+    sm: "top-15",
+    md: "top-16",
+    lg: "top-17",
   };
 
   const handleSelect = (option: string) => {
-    setValue(name, option);
+    setValue(name as keyof FormDataType, option);
     setIsOpen(false);
   };
 
   return (
     <div className="relative flex flex-col w-full max-w-md">
+      <label htmlFor={name} className=" text-neutral-100 font-medium capitalize">{label}</label>
       <div className="w-full flex items-center justify-between bg-slate-600/30 border border-gray-300/60 rounded cursor-pointer">
         <input
           type="text"
           placeholder={placeholder}
           className={`rounded-md focus:outline-none pr-10 ${sizes[size]} ${className}  bg-transparent`}
-          {...register(name)}
+          {...register(name as keyof FormDataType)}
           value={value}
           readOnly
           onClick={() => setIsOpen(!isOpen)}
@@ -143,7 +147,7 @@ const InputWithDropdown: React.FC<InputWithDropdownProps> = ({
         </button>
       </div>
       {isOpen && (
-        <ul className={`absolute ${ListPositions[size]} z-10 mt-0.5 w-full border border-gray-400 bg-slate-800 rounded-md shadow-md max-h-48 overflow-auto`}>
+        <ul className={`absolute ${ListPositions[size]} z-10 mt-0.5 w-full border border-gray-400 bg-slate-800 rounded-md shadow-md max-h-48 overflow-auto no-scrollbar`}>
           {options.map((option, index) => (
             <li
               key={index}
@@ -155,7 +159,7 @@ const InputWithDropdown: React.FC<InputWithDropdownProps> = ({
           ))}
         </ul>
       )}
-      {errors[name] && <p className="text-red-500 text-sm mt-1">{errors[name]?.message as string}</p>}
+      {errors[name as keyof FormDataType] && <p className="text-red-500 text-sm mt-1">{errors[name as keyof FormDataType]?.message as string}</p>}
     </div>
   );
 };
