@@ -78,7 +78,7 @@
 
 
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import { FormDataType } from "../../schema/FormSchema";
@@ -106,6 +106,7 @@ const InputWithDropdown: React.FC<InputWithDropdownProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const value = watch(name as keyof FormDataType) || defaultValue;
 
+  const outsideDivRef = useRef<HTMLDivElement>(null);
   //setValue is from react-hook-form working as a state variable
   
   const sizes = {
@@ -125,8 +126,23 @@ const InputWithDropdown: React.FC<InputWithDropdownProps> = ({
     setIsOpen(false);
   };
 
+
+  //close by outside click
+  useEffect(()=>{
+    const closeByOutsideClick = (e:Event)=>{
+      if(outsideDivRef.current &&!outsideDivRef.current.contains(e.target as HTMLElement)){
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", closeByOutsideClick);
+    return ()=>{
+      document.removeEventListener("mousedown", closeByOutsideClick);
+    };
+  },[]);
+
   return (
-    <div className="relative flex flex-col w-full max-w-md">
+    <div ref={outsideDivRef} className="relative flex flex-col w-full max-w-md">
       <label htmlFor={name} className=" text-neutral-100 font-medium capitalize">{label}</label>
       <div className="w-full flex items-center justify-between bg-slate-600/30 border border-gray-300/60 rounded cursor-pointer">
         <input

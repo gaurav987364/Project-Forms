@@ -1,6 +1,10 @@
 import { FormProvider, useForm } from "react-hook-form";
-import { FormDataType, FormSchema } from "../schema/FormSchema";
+import { FormSchema } from "../schema/FormSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useDispatch, useSelector } from "react-redux";
+import { ActionState } from "../store/Store";
+import { addData } from "../slices/DataSlice";
 
 import InputWithDropdown from "../components/ui/InputWithDropDown";
 import Input from "../components/ui/Input";
@@ -10,9 +14,29 @@ import { IoArrowForward } from "react-icons/io5";
 import { RiResetLeftFill } from "react-icons/ri";
 import { LocationData } from "../utils/helper";
 
-const Address = () => {
-  const methods = useForm<FormDataType>({resolver : zodResolver(FormSchema)});
 
+//creating schema for this file from main schema;
+const addressSchema = FormSchema.pick({
+  country:true,
+  state: true,
+  city: true,
+  street: true,
+  zip: true,
+});
+
+type addressSchemaType = z.infer<typeof addressSchema>;
+const Address = () => {
+  const methods = useForm<addressSchemaType>({resolver : zodResolver(addressSchema),defaultValues:{
+    street: '',
+    zip: '',
+    country: '',
+    state: '',
+    city: '',
+  }});
+
+  const dispatch = useDispatch();
+  const datas = useSelector((state:ActionState)=> state.formRed);
+  console.log(datas);
 
   //watch fields
   const selectedCountry = methods.watch("country");
@@ -22,9 +46,13 @@ const Address = () => {
   const states = selectedCountry ? Object.keys(LocationData[selectedCountry] || {}) : [];
   const cities = selectedState ? LocationData[selectedCountry]?.[selectedState] || [] : [];
 
-  const onFormSubmit = (data :  FormDataType) => {
+  const onFormSubmit = (data :  addressSchemaType) => {
     console.log("Form submitted", data);
-    console.log(data);
+    const newObj = {
+      ...datas,
+      ...data
+    }
+    dispatch(addData(newObj));
   };
   const onFormError = (errors : unknown) => {
     console.error("Form errors", errors);
@@ -88,15 +116,15 @@ const Address = () => {
             />
 
             <div className="md:col-span-2 flex justify-end mt-32">
-            <Button 
-              size="lg" 
-              type="submit"
-              color="primary" 
-              className=" bg-pink-500 sm:w-auto font-mono cursor-pointer hover:bg-pink-500/90"
-              endIcon={<IoArrowForward />}
-            >
-              Save & Next 
-            </Button>
+              <Button 
+                size="lg" 
+                type="submit"
+                color="primary" 
+                className=" bg-pink-500 sm:w-auto font-mono cursor-pointer hover:bg-pink-500/90"
+                endIcon={<IoArrowForward />}
+              >
+                Save & Next 
+              </Button>
             </div>
           </form>
         </FormProvider>

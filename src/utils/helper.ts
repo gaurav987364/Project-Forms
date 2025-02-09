@@ -1,4 +1,4 @@
-import { CountryStatesProps, StepsTypes } from "./types";
+import { CountryStatesProps, Field, StepsTypes } from "./types";
 
 export const Steps : StepsTypes[] = [
     {
@@ -98,3 +98,327 @@ export const LocationData : CountryStatesProps = {
         Brandenburg:["Frankfurt", "Munich", "Hamburg"],
     },
 };
+
+
+//Years of experince
+export const yoe = [
+    "0 to 1 years",
+    "1 to 3 years",
+    "3 to 5 years",
+    "5 to 7 years",
+    "7 to 9 years",
+    "9 to 11 years",
+    "11 to 13 years",
+    "13 to 15 years",
+    "15 to 17 years",
+    "17 to 19 years",
+    "19 to 21 years",
+];
+
+//Education qualifications
+export const eduField = [
+    "Mathematics",
+    "Science",
+    "Arts",
+    "Commerce",
+    "Humanities",
+    "Engineering",
+    "Medicine",
+    "Law",
+    "Other",
+];
+
+//degrees
+export const degree = [
+    "Bachelor's",
+    "Master's",
+    "PhD",
+    "Postgraduate",
+    "Diploma",
+    "Certificate",
+    "Undergraduate",
+    "Associate",
+    "Vocational",
+    "Non-degree",
+    "Unspecified",
+    "Other",
+];
+
+//generate random id:
+export const randomId = ()=>{
+    const numsChars = "123456789!@#$%&*abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let id = "";
+    for(let i=0; i<8; i++){
+        id += numsChars.charAt(Math.floor(Math.random() * numsChars.length));
+    }
+    return id;
+};
+
+
+
+//skills assets
+export const skillsData : Field = {
+    Computer_Science : {
+        Software_Development : [
+            "SDE-1",
+            "SDE-2",
+            "SDE-3",
+            "Lead Developer",
+            "Senior Software Developer",
+            "Lead Software Developer",
+            "Senior Software Developer",
+            "Technical Architect",
+            "Project Manager",
+            "Senior Project Manager",
+            "DevOps Engineer",
+        ],
+        Web_Development : [
+            "Frontend Developer",
+            "Senior Frontend Developer",
+            "Lead Frontend Developer",
+            "React.js Developer",
+            "NEXT.js Developer",
+            "Vue.js Developer",
+            "Angular Developer",
+            "Node.js Developer",
+            "Full Stack Developer",
+            "Lead Full Stack Developer",
+            "Senior Full Stack Developer",
+            "Software Engineer",
+            "Senior Software Engineer",
+            "Lead Software Engineer",
+            "Senior Software Engineer",
+            "UI/UX Designer",
+        ],
+        Data_Science : [
+            "Data Scientist",
+            "Senior Data Scientist",
+            "Lead Data Scientist",
+            "Machine Learning Engineer",
+            "Deep Learning Engineer",
+            "Natural Language Processing Engineer",
+            "Artificial Intelligence Engineer",
+            "Senior Artificial Intelligence Engineer",
+            "Lead Artificial Intelligence Engineer",
+        ],
+        Blockchain : [
+            "Blockchain Developer",
+            "Senior Blockchain Developer",
+            "Lead Blockchain Developer",
+            "Smart Contract Developer",
+            "Decentralized Application Developer",
+            "Blockchain Engineer",
+            "Senior Blockchain Engineer",
+            "Lead Blockchain Engineer",
+            "Blockchain Architect",
+        ],
+        Cybersecurity : [
+            "Cybersecurity Engineer",
+            "Senior Cybersecurity Engineer",
+            "Lead Cybersecurity Engineer",
+            "Network Security Engineer",
+            "Security Analyst",
+            "Senior Security Analyst",
+            "Lead Security Analyst",
+            "Penetration Tester",
+            "Senior Penetration Tester",
+        ],
+        DevOps : [
+            "DevOps Engineer",
+            "Senior DevOps Engineer",
+            "Lead DevOps Engineer",
+            "Continuous Integration Engineer",
+        ],
+    },
+    Medical:{
+        Healthcare_Technology : [
+            "Clinical Researcher",
+            "Senior Clinical Researcher",
+            "Lead Clinical Researcher",
+            "Clinical Informatics Specialist",
+            "Clinical Data Scientist",
+            "Senior Clinical Data Scientist",
+            "Lead Clinical Data Scientist",
+            "Medical Informatics Specialist",
+            "Medical Informatics Engineer",
+            "Senior Medical Informatics Engineer",
+            "Lead Medical Informatics Engineer",
+            "Medical Device Engineer",
+            "Senior Medical Device Engineer",
+            "Lead Medical Device Engineer",
+        ],
+        Medicine:[
+           " General Practitioner (GP)",
+           "Specialist (Cardiologist, Neurologist, etc.)",
+           "Surgeon",
+           "Medical Researcher"
+        ],
+        Nursing:[
+            "Registered Nurse (RN)",
+            "Nurse Practitioner (NP)",
+            "Clinical Nurse Specialist (CNS)",
+            "Nurse Anesthetist"
+        ],
+        Pharmacy:[
+            "Pharmacist",
+            "Pharmacy Technician",
+            "Pharmacy Manager",
+            "Pharmacy Associate",
+            "Pharmacy Technician",
+        ]
+    },
+    Engineering:{
+        civil:[
+            "Structural Engineer",
+            "Geotechnical Engineer",
+            "Transportation Engineer"
+        ],
+        electrical:[
+            "Electrical Engineer",
+            "Instrumentation Engineer",
+            "Power Systems Engineer"
+        ],
+        mechanical:[
+            "Mechanical Engineer",
+            "Automotive Engineer",
+            "Industrial Engineer"
+        ],
+    },
+    Business:{
+        Finance:[
+            "Financial Analyst",
+            "Financial Manager",
+            "Investment Banker",
+            "Quantitative Analyst",
+            "Risk Manager"
+        ],
+        Marketing:[
+            "Marketing Manager",
+            "Marketing Specialist",
+            "Advertising Manager",
+            "Public Relations Manager",
+            "Media Manager"
+        ],
+        Administration:[
+            "Human Resources Manager",
+            "Finance Manager",
+            "Finance Analyst",
+            "Project Manager",
+            "Senior Project Manager"
+        ],
+        Operations:[
+            "Operations Manager",
+            "Supply Chain Manager",
+            "Logistics Manager",
+            "Customer Service Manager",
+            "Quality Assurance Manager"
+        ],
+        Legal:[
+            "Legal Manager",
+            "Legal Advisor",
+            "Attorney",
+            "Tax Manager",
+            "Public Relations Manager"
+        ],
+    },
+    Arts:{
+        Art_History:[
+            "Artist",
+            "Painter",
+            "Sculptor",
+            "Architect",
+            "Photographer"
+        ],
+        Music:[
+            "Musician",
+            "Songwriter",
+            "Composer",
+            "Arranger",
+            "Band Leader"
+        ],
+        Theater:[
+            "Actor",
+            "Director",
+            "Screenwriter",
+            "Cinematographer",
+            "Costume Designer"
+        ],
+        Dance:[
+            "Dancer",
+            "Choreographer",
+            "Ballet Teacher",
+            "Dance Instructor",
+            "Dance Studio Manager"
+        ],
+        Writing:[
+            "Writer",
+            "Editor",
+            "Proofreader",
+            "Translator",
+            "Publisher"
+        ],
+        Performing_Arts:[
+            "Musician",
+            "Dancer",
+            "Theater Artist",
+            "Writer",
+            "Film Director"
+        ],
+    },
+};
+
+
+//language data
+export const language = [
+    "English",
+    "Spanish",
+    "French",
+    "German",
+    "Chinese",
+    "Japanese",
+    "Russian",
+    "Italian",
+    "Portuguese",
+    "Turkish",
+    "Arabic",
+    "Korean",
+    "Vietnamese",
+    "Danish",
+    "Dutch",
+    "Swedish",
+    "Norwegian",
+    "Finnish",
+    "Greek",
+    "Hindi",
+    "Polish",
+    "Portugese",
+    "Romanian",
+    "Slovak",
+    "Slovenian",
+    "Thai",
+    "Ukrainian",
+    "Indonesian",
+    "Malay",
+    "Turkish",
+    "Tagalog",
+    "Czech",
+    "Slovak",
+    "Estonian",
+    "Latvian",
+];
+
+export const communications = [
+    "Beginner",
+    "Intermediate",
+    "Advanced",
+    "Fluent",
+    "Native",
+];
+
+export const problemSolving = [
+    "Beginner",
+    "Intermediate",
+    "Advanced",
+    "Pro",
+    "Master",
+];

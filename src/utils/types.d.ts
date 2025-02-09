@@ -32,6 +32,8 @@ export interface StepsTypes {
     success?: boolean;
 };
 
+
+//location data types
 interface StateCities {
     [state: string]: string[];
 }
@@ -40,4 +42,12 @@ export interface CountryStatesProps {
    [country: string]: StateCities;
 } 
 
+
+//skills data types
+interface subField {
+    [subField : string] : string[];
+}
+export interface Field {
+    [field : string] : subField;
+}
 //? form types

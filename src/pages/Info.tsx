@@ -1,6 +1,10 @@
 import { FormProvider, useForm } from "react-hook-form";
-import { FormDataType, FormSchema } from "../schema/FormSchema";
+import { FormSchema } from "../schema/FormSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useDispatch, useSelector } from "react-redux";
+import { addData } from "../slices/DataSlice";
+import { ActionState } from "../store/Store";
 
 import InputWithDropdown from "../components/ui/InputWithDropDown";
 import Input from "../components/ui/Input";
@@ -8,14 +12,42 @@ import Button from "../components/ui/Button";
 
 import { IoArrowForward } from "react-icons/io5";
 import { RiResetLeftFill } from "react-icons/ri";
+import { randomId } from "../utils/helper";
 
+
+//creating an individual schema from main schema
+const infoSchema = FormSchema.pick({
+  firstName:true,
+  lastName:true,
+  email:true,
+  gender:true,
+  dob:true,
+  phone:true
+});
+
+type infoSchemaType = z.infer<typeof infoSchema>;
 const Info = () => {
-  const methods = useForm<FormDataType>({resolver : zodResolver(FormSchema)});
+  const methods = useForm<infoSchemaType>({resolver : zodResolver(infoSchema),defaultValues:{
+    firstName:"",
+    lastName:"",
+    email:"",
+    gender:"Others",
+    dob:"",
+    phone:""
+  }});
 
+  
+  const dispatch = useDispatch();
+  const datas = useSelector((state:ActionState)=> state.formRed);
+  console.log(datas);
 
-  const onFormSubmit = (data :  FormDataType) => {
+  const onFormSubmit = (data :  infoSchemaType) => {
     console.log("Form submitted", data);
-    console.log(data);
+    const newObj = { 
+      id:randomId(),
+      ...data
+    };
+    dispatch(addData(newObj));
   };
   const onFormError = (errors : unknown) => {
     console.error("Form errors", errors);
@@ -82,15 +114,15 @@ const Info = () => {
             />
 
             <div className="md:col-span-2 flex justify-end mt-32">
-            <Button 
-              size="lg" 
-              type="submit"
-              color="primary" 
-              className=" bg-pink-500 sm:w-auto font-mono cursor-pointer hover:bg-pink-500/90"
-              endIcon={<IoArrowForward />}
-            >
-              Save & Next 
-            </Button>
+              <Button 
+                size="lg" 
+                type="submit"
+                color="primary" 
+                className=" bg-pink-500 sm:w-auto font-mono cursor-pointer hover:bg-pink-500/90"
+                endIcon={<IoArrowForward />}
+              >
+                Save & Next 
+              </Button>
             </div>
           </form>
         </FormProvider>
