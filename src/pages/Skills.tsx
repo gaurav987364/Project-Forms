@@ -11,7 +11,9 @@ import Button from "../components/ui/Button";
 
 import { IoArrowForward } from "react-icons/io5";
 import { RiResetLeftFill } from "react-icons/ri";
-import { communications, language, problemSolving, skillsData } from "../utils/helper";
+import { communications, language, problemSolving, skillsByRole, skillsData } from "../utils/helper";
+import Multistep from "../components/ui/Multistep";
+
 
 
 //creating schema for this file from main schema;
@@ -46,10 +48,12 @@ const Skills = () => {
   //watch fields
   const selectedField = methods.watch("field");
   const selectedSubField = methods.watch("sub_field");
+  const selectedRole = methods.watch("role");
 
   //extarct data from our local data
   const sub_fields = selectedField ? Object.keys(skillsData[selectedField] || {}) : [];
   const roles = selectedSubField ? skillsData[selectedField]?.[selectedSubField] || [] : [];
+  const skills = Object.entries(skillsByRole).find(([roleName]) => roleName === selectedRole);
 
   const onFormSubmit = (data :  skillsSchemaType) => {
     console.log("Form submitted", data);
@@ -103,14 +107,10 @@ const Skills = () => {
                 size="md"
               />
             )}
-            <InputWithDropdown 
-                name="role" 
-                label="Your Role"
-                placeholder="Select your role" 
-                options={roles}
-                className=" w-full"
-                size="md"
-            />
+            {skills && (
+              <Multistep data={skills[1]}/>
+            )}
+            
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 col-span-full ">
               <InputWithDropdown 

@@ -367,6 +367,146 @@ export const skillsData : Field = {
     },
 };
 
+//role-based-skill-data
+export const skillsByRole = {
+  // Software Development Roles
+  "SDE-1": [
+     "Java" ,
+     "JavaScript" ,
+     "Data Structures" ,
+     "Algorithms" ,
+  ],
+  "SDE-2": [
+     "System Design" ,
+     "Microservices" ,
+     "AWS" ,
+     "Kubernetes" ,
+  ],
+  "SDE-3": [
+     "Scalability" ,
+     "Distributed Systems" ,
+     "API Design" ,
+     "Database Optimization" ,
+  ],
+  "Lead Developer": [
+     "Technical Leadership" ,
+     "Project Management" ,
+     "Code Reviews" ,
+  ],
+
+  // Web Development Roles
+  "Frontend Developer": [
+     "HTML" ,
+     "CSS" ,
+     "JavaScript" ,
+     "React" ,
+     "TypeScript" ,
+     "Redux" ,
+     "Next.js" ,
+  ],
+  "Backend Developer": [
+     "Node.js" ,
+     "Express.js" ,
+     "MongoDB" ,
+     "SQL" ,
+  ],
+  "Full Stack Developer": [
+     "React" ,
+     "Node.js" ,
+     "MongoDB" ,
+     "GraphQL" ,
+  ],
+
+  // Data Science Roles
+  "Data Scientist": [
+     "Python" ,
+     "Pandas" ,
+     "TensorFlow" ,
+     "Scikit-Learn" ,
+  ],
+  "Machine Learning Engineer": [
+     "Deep Learning" ,
+     "Neural Networks" ,
+     "Reinforcement Learning" ,
+  ],
+
+  // Cybersecurity Roles
+  "Cybersecurity Engineer": [
+     "Ethical Hacking" ,
+     "Penetration Testing" ,
+     "Cryptography" ,
+  ],
+  "Security Analyst": [
+     "Threat Modeling" ,
+     "SIEM" ,
+     "Vulnerability Assessment" ,
+  ],
+
+  // DevOps Roles
+  "DevOps Engineer": [
+     "Docker" ,
+     "Kubernetes" ,
+     "AWS" ,
+     "Terraform" ,
+     "CI/CD Pipelines" ,
+  ],
+
+  // Blockchain Roles
+  "Blockchain Developer": [
+     "Solidity" ,
+     "Ethereum" ,
+     "Smart Contracts" ,
+  ],
+
+  // Medical Roles
+  "Clinical Researcher": [
+     "Medical Data Analysis" ,
+     "Clinical Trials" ,
+  ],
+  "Pharmacist": [
+     "Pharmaceutical Science" ,
+     "Drug Formulation" ,
+  ],
+
+  // Engineering Roles
+  "Structural Engineer": [
+     "Structural Analysis" ,
+     "AutoCAD" ,
+  ],
+  "Electrical Engineer": [
+     "Circuit Design" ,
+     "Power Systems" ,
+  ],
+  "Mechanical Engineer": [
+     "Thermodynamics" ,
+     "CAD Design" ,
+  ],
+
+  // Business Roles
+  "Financial Analyst": [
+     "Investment Analysis" ,
+     "Financial Modeling" ,
+  ],
+  "Marketing Manager": [
+     "SEO" ,
+     "Content Marketing" ,
+  ],
+
+  // Arts Roles
+  "Writer": [
+     "Creative Writing" ,
+     "Editing" ,
+  ],
+  "Musician": [
+     "Music Theory" ,
+     "Composition" ,
+  ],
+  "Actor": [
+     "Stage Performance" ,
+     "Screen Acting" ,
+  ],
+};
+
 
 //language data
 export const language = [
@@ -422,3 +562,6 @@ export const problemSolving = [
     "Pro",
     "Master",
 ];
+
+
+

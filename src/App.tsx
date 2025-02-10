@@ -11,22 +11,10 @@ import Skills from "./pages/Skills";
 import AdditionalInfo from "./pages/AdditionalInfo";
 import Review from "./pages/Review";
 import Store from "./store/Store";
-import Multistep from "./components/ui/Multistep";
 
 const App = () => {
   return (
     <Provider store={Store}>
-       <Multistep
-        // selected={selected}
-        // onSelectedChange={setSelected}
-        // fetchSuggestions={fetchSuggestions}
-        allowCustom
-        maxItems={5}
-        pillClassName="bg-purple-100 text-purple-800"
-        inputClassName="text-lg"
-        ariaLabel="Add skills"
-        noSuggestionsText="No matching skills found"
-      />
     <BrowserRouter>
       {/* Your application routes */}
       <Routes>
