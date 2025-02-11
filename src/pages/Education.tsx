@@ -118,7 +118,7 @@ const Education = () => {
                size="md"
                variant="outline"
               >
-                Add Another +
+                ADD ANOTHER ( + )
               </Button>
             </div>
 

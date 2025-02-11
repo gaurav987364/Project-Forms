@@ -12,7 +12,7 @@ import Button from "../components/ui/Button";
 import { IoArrowForward } from "react-icons/io5";
 import { RiResetLeftFill } from "react-icons/ri";
 import { communications, language, problemSolving, skillsByRole, skillsData } from "../utils/helper";
-import Multistep from "../components/ui/Multistep";
+import InputWithPills from "../components/ui/InputWithPills";
 
 
 
@@ -20,6 +20,7 @@ import Multistep from "../components/ui/Multistep";
 const skillsSchema = FormSchema.pick({
   field : true,
   sub_field : true,
+  skill:true,
   role : true,
   language : true,
   communication : true,
@@ -33,6 +34,7 @@ const Skills = () => {
   const methods = useForm<skillsSchemaType>({resolver : zodResolver(skillsSchema),defaultValues:{
     field : "",
     sub_field : "",
+    skill : [],
     role : "",
     language : language[0],
     communication : communications[0],
@@ -108,10 +110,16 @@ const Skills = () => {
               />
             )}
             {skills && (
-              <Multistep data={skills[1]}/>
+              <InputWithPills 
+                name="skill" 
+                label="Skills"
+                placeholder="eg: Add. Your Skills." 
+                options={skills[1]}
+                className=" w-full"
+                size="sm"
+              />
             )}
             
-
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 col-span-full ">
               <InputWithDropdown 
                 name="language" 

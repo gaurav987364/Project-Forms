@@ -115,11 +115,11 @@ const InputWithDropdown: React.FC<InputWithDropdownProps> = ({
     lg: "w-[600px] px-3 py-2 text-lg",
   };
 
-  const ListPositions = {
-    sm: "top-15",
-    md: "top-16",
-    lg: "top-17",
-  };
+const ListPositions = {
+    sm: "bottom-0 translate-y-full",
+    md: "bottom-0 translate-y-full",
+    lg: "bottom-0 translate-y-full",
+};
 
   const handleSelect = (option: string) => {
     setValue(name as keyof FormDataType, option);

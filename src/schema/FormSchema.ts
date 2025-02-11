@@ -90,6 +90,11 @@ export const FormSchema = z.object({
     role:z.string()
              .min(2, {message:"Please enter a role."})
              .max(50, {message:"Please enter a valid role."}),
+    skill: z.array(
+              z.string()
+                .min(2, { message: "Please enter valid skills." })
+                .max(200, { message: "Skill must be between 2 and 200 characters." })
+            ).nonempty({ message: "At least one skill is required." }),   
     language:z.string()
              .min(2, {message:"Please enter a language."})
              .max(50, {message:"Please enter a valid language."}),
