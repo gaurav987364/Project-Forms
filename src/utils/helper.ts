@@ -564,4 +564,31 @@ export const problemSolving = [
 ];
 
 
+//get address information;
 
+export const getLatLng =async ()=>{
+    if(!navigator.geolocation) return null;
+    const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+    return { 
+        lat: position.coords.latitude, 
+        lng: position.coords.longitude
+    };
+};
+
+export const getAddress = async (lat : number, lng : number) => {
+    try {
+        const response = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&format=json&apiKey=c3a2175dbfe14dca8055b974528b8ea8`);
+        const data = await response.json();
+        if (data.results && data.results.length > 0) {
+            return data.results[0]; // Adjust as per the actual API response structure
+        } else {
+            console.log('No results found.');
+            return null;
+        }
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+};

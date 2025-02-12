@@ -1,3 +1,4 @@
+
 import { FormProvider, useForm } from "react-hook-form";
 import { FormSchema } from "../schema/FormSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -10,10 +11,14 @@ import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 
 import { IoArrowForward, IoLocationSharp } from "react-icons/io5";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { RiResetLeftFill } from "react-icons/ri";
-import { randomId } from "../utils/helper";
+import { getAddress, getLatLng, randomId } from "../utils/helper";
 import InputWithPills from "../components/ui/InputWithPills";
 import RangePicker from "../components/ui/RangePicker";
+import { useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { LuMessageCircleWarning } from "react-icons/lu";
 
 
 //creating an individual schema from main schema
@@ -36,8 +41,38 @@ const AdditionalInfo = () => {
     dob:"",
     phone:""
   }});
+  const latRef = useRef<number | null>(null);
+  const lngRef = useRef<number | null>(null);
 
-  
+  const showCurrentCordinates = async ()=>{
+    const location = await getLatLng();
+    if(location){
+      latRef.current = location.lat;
+      lngRef.current = location.lng;
+    }
+  }; 
+
+  //fetch address using react-query
+  const {data : address, isLoading, isError, error, refetch} = useQuery({
+    queryKey:["address",latRef,lngRef],
+    queryFn : async () => {
+      if (latRef.current !== null && lngRef.current !== null) {
+        return await getAddress(latRef.current, lngRef.current);
+      }
+      return null;
+    },
+    staleTime: 1000*60*60*24
+  });
+
+  const formattedAddress = address ? address.formatted : "";
+
+  const handleButtonClick = async ()=>{
+    await showCurrentCordinates();
+    refetch();
+  }
+
+
+  //below is redux store stuff
   const dispatch = useDispatch();
   const datas = useSelector((state:ActionState)=> state.formRed);
   console.log(datas);
@@ -53,6 +88,7 @@ const AdditionalInfo = () => {
   const onFormError = (errors : unknown) => {
     console.error("Form errors", errors);
   };
+
   return (
     <div  className=" w-full h-full border p-4 sm:p-6 md:p-8 overflow-hidden overflow-y-scroll no-scrollbar">
       <div className=" w-full h-fit">
@@ -87,13 +123,37 @@ const AdditionalInfo = () => {
                 type="text" 
                 name="current_location" 
                 label="Current Location"
+                value={formattedAddress}
+                onChange={()=>console.log("address")}
                 placeholder="eg: Delhi,India"
                 className=" w-full"
                 size="md"
               />
-              <Button variant="outline" size="sm" className=" hover:bg-transparent mt-0.5 cursor-pointer border-gray-300">
-                <IoLocationSharp size={22} fill="white"/>
-              </Button>
+              <div className=" flex items-center mt-0.5">
+                <Button 
+                  disabled={isLoading} 
+                  onClick={handleButtonClick} 
+                  variant="outline" 
+                  size="sm" 
+                  className=" hover:bg-transparent mt-0.5 cursor-pointer border-gray-300"
+                >
+                  {isLoading 
+                  ? <AiOutlineLoading3Quarters 
+                     fill="white" 
+                     className=" animate-spin" 
+                     size={22}
+                    />
+                  : (
+                    <IoLocationSharp size={22} fill="white"/>
+                  )}
+                </Button>
+
+                {isError && (
+                  <span className=" font-mono text-xs font-semibold text-red-500 border rounded-lg px-2 ml-2 py-1.5 flex items-center gap-1 mt-1">
+                    <LuMessageCircleWarning size={20}/>{error.message}
+                  </span>
+                )}
+              </div>
             </div>
 
             <InputWithPills 
