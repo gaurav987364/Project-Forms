@@ -1,49 +1,64 @@
-
+import { useRef } from "react";
+//form stuff imports
 import { FormProvider, useForm } from "react-hook-form";
 import { FormSchema } from "../schema/FormSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import { z } from "zod";
+
+//redux imports
 import { useDispatch, useSelector } from "react-redux";
 import { addData } from "../slices/DataSlice";
 import { ActionState } from "../store/Store";
 
+//component imports
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
+import InputWithPills from "../components/ui/InputWithPills";
+import RangePicker from "../components/ui/RangePicker";
 
+// react-icons imports
 import { IoArrowForward, IoLocationSharp } from "react-icons/io5";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { RiResetLeftFill } from "react-icons/ri";
-import { getAddress, getLatLng, randomId } from "../utils/helper";
-import InputWithPills from "../components/ui/InputWithPills";
-import RangePicker from "../components/ui/RangePicker";
-import { useRef } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { LuMessageCircleWarning } from "react-icons/lu";
+
+//utils imports and other Rdom and react-query
+import { getAddress, getLatLng, getPreferenceLocation } from "../utils/helper";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 
 //creating an individual schema from main schema
 const AdditionalinfoSchema = FormSchema.pick({
-  firstName:true,
-  lastName:true,
-  email:true,
-  gender:true,
-  dob:true,
-  phone:true
+  linkedin_url:true,
+  github_url:true,
+  current_location:true,
+  preferred_location:true,
+  availablity_to_start:true,
 });
 
 type AdditionalinfoSchemaType = z.infer<typeof AdditionalinfoSchema>;
 const AdditionalInfo = () => {
+  const dispatch = useDispatch();
+  const storeData = useSelector((state:ActionState)=> state.formRed);
+  const navigate = useNavigate();
+
   const methods = useForm<AdditionalinfoSchemaType>({resolver : zodResolver(AdditionalinfoSchema),defaultValues:{
-    firstName:"",
-    lastName:"",
-    email:"",
-    gender:"Others",
-    dob:"",
-    phone:""
+    linkedin_url:storeData.linkedin_url || "",
+    github_url:storeData.github_url || "",
+    current_location:storeData.current_location || "",
+    preferred_location: storeData.preferred_location || [''],
+    availablity_to_start:storeData.availablity_to_start || "",
   }});
+
+  //storing information of lat and long.
   const latRef = useRef<number | null>(null);
   const lngRef = useRef<number | null>(null);
+  
+  // Use watch to track the current_location value
+  const currentLocation = methods.watch("current_location");
 
+   //fetch current location and update latitude and longitude.
   const showCurrentCordinates = async ()=>{
     const location = await getLatLng();
     if(location){
@@ -64,26 +79,22 @@ const AdditionalInfo = () => {
     staleTime: 1000*60*60*24
   });
 
-  const formattedAddress = address ? address.formatted : "";
 
+  // Update form field when address data changes
+  if (address && address.formatted !== currentLocation) {
+    methods.setValue("current_location", address.formatted);
+  }
   const handleButtonClick = async ()=>{
     await showCurrentCordinates();
     refetch();
   }
 
 
-  //below is redux store stuff
-  const dispatch = useDispatch();
-  const datas = useSelector((state:ActionState)=> state.formRed);
-  console.log(datas);
-
+  //submit form data and send to store and navigate and track error
   const onFormSubmit = (data :  AdditionalinfoSchemaType) => {
     console.log("Form submitted", data);
-    const newObj = { 
-      id:randomId(),
-      ...data
-    };
-    dispatch(addData(newObj));
+    dispatch(addData(data));
+    navigate('/formlayout/review')
   };
   const onFormError = (errors : unknown) => {
     console.error("Form errors", errors);
@@ -104,9 +115,9 @@ const AdditionalInfo = () => {
           <form onSubmit={methods.handleSubmit(onFormSubmit,onFormError)} className=" space-y-4 md:space-y-0 md:grid md:grid-cols-2 md:gap-4">
             <Input 
               type="url" 
-              name="portfolio_url" 
-              label="Portfolio URL"
-              placeholder="eg: www.portfolio.com/john-doe"
+              name="linkedin_url" 
+              label="Linkedin URL"
+              placeholder="eg: www.Linkedin.com/john-doe"
               className=" w-full"
               size="md"
             />
@@ -123,8 +134,8 @@ const AdditionalInfo = () => {
                 type="text" 
                 name="current_location" 
                 label="Current Location"
-                value={formattedAddress}
-                onChange={()=>console.log("address")}
+                value={currentLocation}
+                onChange={(e) => methods.setValue("current_location", e.target.value)}
                 placeholder="eg: Delhi,India"
                 className=" w-full"
                 size="md"
@@ -157,7 +168,7 @@ const AdditionalInfo = () => {
             </div>
 
             <InputWithPills 
-              options={['']} 
+              options={getPreferenceLocation} 
               name="preferred_location"  
               label="Preferred Location"
               placeholder="eg: Delhi,Mumbai etc."

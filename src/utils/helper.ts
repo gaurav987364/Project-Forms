@@ -592,3 +592,38 @@ export const getAddress = async (lat : number, lng : number) => {
         return null;
     }
 };
+
+
+//preferences location data
+export const getPreferenceLocation = [
+    "Bengaluru", 
+    "Hyderabad", 
+    "Pune",
+    "Chennai", 
+    "Gurugram", 
+    "Noida", 
+    "Mumbai", 
+    "Kolkata", 
+    "Ahmedabad", 
+    "Thiruvananthapuram", 
+    "Coimbatore", 
+    "Jaipur", 
+    "Indore", 
+    "Bhubaneswar", 
+    "Kochi",
+    "Nagpur", 
+    "Mangalore", 
+    "Chandigarh", 
+    "Visakhapatnam", 
+    "Lucknow",
+    "Delhi", 
+    "Puducherry", 
+    "Vadodara", 
+    "Surat", 
+    "Trivandram",
+    "Vijayawada", 
+    "Patna", 
+    "Bhopal", 
+    "Vadnagar", 
+    "Udaipur",
+];

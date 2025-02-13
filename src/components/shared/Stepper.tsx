@@ -1,25 +1,40 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { debounce, Steps } from "../../utils/helper";
 import { StepsTypes } from "../../utils/types";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Stepper = () => {
-  const [currentStep,setCurrentStep] = useState<number>(1);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [currentStep,setCurrentStep] = useState<number>(()=>{
+    const savedStep = localStorage.getItem("currentStep");
+    return savedStep? parseInt(savedStep) : 1;
+  });
   const [isCompleted,setIsCompleted] = useState<boolean>(false);
   const [progressBarStyle,setProgressBarStyle] = useState({
     left:0,
     width:0
   });
   const stepRef = useRef<HTMLDivElement[]>([]);
-  const navigate = useNavigate();
 
 
    /** Memoized function to update step */
    const handleControls = useCallback((step: StepsTypes, index: number) => {
+    if(index + 1 > currentStep) return; // when click on any step > currentstep true
     setCurrentStep(index + 1);
     setIsCompleted(index === Steps.length - 1);
     navigate(`${step.href}`);
-    }, [navigate]);
+    }, [navigate,currentStep]);
+
+    //sync the step with url
+    useEffect(()=>{
+      const stepIndex = Steps.findIndex(step => step.href === location.pathname);
+      if(stepIndex !== -1){
+        setCurrentStep(stepIndex + 1);
+        localStorage.setItem("currentStep", String(stepIndex+1));
+      }
+    },[location]);
 
   /** Memoized function to update progress bar */
   const updateProgressBarStyle = useRef(
@@ -41,7 +56,7 @@ const Stepper = () => {
     }, 100)
   );
 
-  /** Run once when component mounts */
+  /** Run once when component mounts and restore progress */
   useEffect(() => {
     updateProgressBarStyle.current();
   }, []);
@@ -56,15 +71,31 @@ const Stepper = () => {
     };
   }, []);
 
+  //?Listen to the Browser back button (popstate event)
+  useEffect(()=>{
+    const handlePropState = ()=>{
+      const stepIndex = Steps.findIndex(step => step.href === location.pathname);
+      if(stepIndex!== -1){
+        setCurrentStep(stepIndex + 1);
+        localStorage.setItem("currentStep", String(stepIndex+1));
+      }
+    };
+
+    window.addEventListener("popstate", handlePropState);
+    return ()=>{
+      window.removeEventListener("popstate", handlePropState);
+    };
+  },[location]);
+
 
   //?keyboard keys interactivity (backspace, < & >);
   useEffect(()=>{
     const handleInteractions = (e:KeyboardEvent)=>{
-      if(e.key === "ArrowRight"){
+      if(e.key === "ArrowRight" && currentStep < Steps.length){
         if(currentStep === Steps.length) return;
         handleControls(Steps[currentStep],currentStep);
       }
-      if(e.key === "ArrowLeft"){
+      if(e.key === "ArrowLeft" && currentStep > 1){
         if(currentStep === 1) return;
         handleControls(Steps[currentStep-2],currentStep-2);
       }

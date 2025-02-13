@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { Dispatch, PropsWithChildren, SetStateAction } from "react";
 export interface ButtonProps extends PropsWithChildren {
     children: React.ReactNode;
     disabled?: boolean;
@@ -18,12 +18,12 @@ export interface ButtonProps extends PropsWithChildren {
 export interface InputProps {
     name?: string;
     label?: string;
-    type?: 'text' | 'number' | 'email' | 'password' | 'file' | 'url' | 'date' | 'select';
+    type?: 'text' | 'number' | 'email' | 'password' | 'file' | 'url' | 'date' | 'select' | 'checkbox';
     placeholder?: string;
     className?: string;
     size?: 'sm' | 'md' | 'lg';
     value?: string | number;
-    onChange?: (event: React.FormEvent<HTMLInputElement>) => void;
+    onChange?: Dispatch<SetStateAction>;
 };
 
 export interface StepsTypes {

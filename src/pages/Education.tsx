@@ -1,18 +1,26 @@
+// form imports
 import { FormProvider, useForm } from "react-hook-form";
 import { FormSchema } from "../schema/FormSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import { z } from "zod";
+
+// redux imports
 import { useDispatch, useSelector } from "react-redux";
 import { addData } from "../slices/DataSlice";
 import { ActionState } from "../store/Store";
 
+// component imports
 import InputWithDropdown from "../components/ui/InputWithDropDown";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 
+// icons import
 import { IoArrowForward } from "react-icons/io5";
 import { RiResetLeftFill } from "react-icons/ri";
-import { degree, randomId } from "../utils/helper";
+
+// utils import
+import { degree } from "../utils/helper";
+import { useNavigate } from "react-router-dom";
 
 
 //creating an individual schema from main schema
@@ -27,27 +35,26 @@ const EducationSchema = FormSchema.pick({
 
 type EducationSchemaType = z.infer<typeof EducationSchema>;
 const Education = () => {
+  const dispatch = useDispatch();
+  const storeData = useSelector((state:ActionState)=> state.formRed);
+  const navigate = useNavigate();
+
+
   const methods = useForm<EducationSchemaType>({resolver : zodResolver(EducationSchema),defaultValues:{
-    school_name : "",
-    school_location : "",
-    field_of_study : "",
-    degree : "",
-    start_school : "",
-    end_school : "",
+    school_name :storeData.school_name || "",
+    school_location : storeData.school_location || "",
+    field_of_study : storeData.field_of_study || "",
+    degree : storeData.degree || "",
+    start_school : storeData.start_school || "",
+    end_school : storeData.end_school || "",
   }});
 
-  
-  const dispatch = useDispatch();
-  const datas = useSelector((state:ActionState)=> state.formRed);
-  console.log(datas);
 
+  //submit form data and send to store and navigate and track error
   const onFormSubmit = (data :  EducationSchemaType) => {
     console.log("Form submitted", data);
-    const newObj = { 
-      id:randomId(),
-      ...data
-    };
-    dispatch(addData(newObj));
+    dispatch(addData(data));
+    navigate('/formlayout/skills')
   };
   const onFormError = (errors : unknown) => {
     console.error("Form errors", errors);

@@ -110,6 +110,26 @@ export const FormSchema = z.object({
     problem_solving:z.string()
              .min(2, {message:"Please enter a problem_solving."})
              .max(50, {message:"Please enter a valid problem_solving."}),
+    linkedin_url:z.string()
+              .url({ message: "Please enter a valid URL." }),
+    github_url:z.string()
+              .url({ message: "Please enter a valid URL." }),
+    current_location:z.string()
+             .min(2, {message:"Please enter a current location."})
+             .max(50, {message:"Please enter a valid current location."}),
+    preferred_location:z.array(
+        z.string()
+        .min(2, { message: "Please enter valid preferred locations." })
+        .max(50, { message: "Preferred location must be between 2 and 50 characters." })
+        ).nonempty({message:"Please enter a preferred location."}),
+     availablity_to_start:z.string()
+        .regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format")
+        .refine((date) => new Date(date) > new Date(), {
+                message: "Start date must be in the future"
+        }),    
+    terms_and_conditions:z.boolean().refine(value => value === true, {
+        message: "You must accept the terms and conditions",
+      }),
 });
 
 

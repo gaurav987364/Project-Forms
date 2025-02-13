@@ -84,7 +84,7 @@ const InputWithPills: React.FC<InputWithPillsProps> = ({
   },[]);
 
   return (
-    <div ref={outsideDivRef} className="relative flex flex-col w-full max-w-md">
+    <div ref={outsideDivRef} className="relative flex flex-col w-full max-w-full">
       <label htmlFor={name} className=" text-neutral-100 font-medium capitalize">{label}</label>
          <div className="w-full flex items-center justify-between bg-slate-600/30 border border-gray-300/60 rounded cursor-pointer min-h-[42px] p-2 relative">
             {/* Pills container with input */}

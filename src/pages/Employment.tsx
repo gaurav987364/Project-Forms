@@ -1,18 +1,26 @@
+// form import
 import { FormProvider, useForm } from "react-hook-form";
 import { FormSchema } from "../schema/FormSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import { z } from "zod";
+
+// redux imports
 import { useDispatch, useSelector } from "react-redux";
 import { addData } from "../slices/DataSlice";
 import { ActionState } from "../store/Store";
 
+// components import
 import InputWithDropdown from "../components/ui/InputWithDropDown";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 
+// icons import
 import { IoArrowForward } from "react-icons/io5";
 import { RiResetLeftFill } from "react-icons/ri";
-import { randomId, yoe } from "../utils/helper";
+
+// utils import
+import { yoe } from "../utils/helper";
+import { useNavigate } from "react-router-dom";
 
 
 //creating an individual schema from main schema
@@ -28,30 +36,29 @@ const EmploymentSchema = FormSchema.pick({
 
 type EmploymentSchemaType = z.infer<typeof EmploymentSchema>;
 const Employment = () => {
+  const dispatch = useDispatch();
+  const storeData = useSelector((state:ActionState)=> state.formRed);
+  const navigate = useNavigate();
+
   const methods = useForm<EmploymentSchemaType>({resolver : zodResolver(EmploymentSchema),defaultValues:{
-    current_job: '',
-    current_company: '',
-    last_working_date: '',
-    reason_for_leaving_last_job: '',
-    years_of_exp: '',
-    start_date: '',
-    end_date: '',
+    current_job: storeData.current_job || '',
+    current_company: storeData.current_company || '',
+    last_working_date: storeData.last_working_date || '',
+    reason_for_leaving_last_job: storeData.reason_for_leaving_last_job || '',
+    years_of_exp: storeData.years_of_exp || '',
+    start_date: storeData.start_date || '',
+    end_date: storeData.end_date || '',
   }});
 
   //watch fields
-  const currentJob = methods.watch("current_job");
-  console.log(currentJob);  //? make ai called base on that and generate job-description
-  const dispatch = useDispatch();
-  const datas = useSelector((state:ActionState)=> state.formRed);
-  console.log(datas);
+  //const currentJob = methods.watch("current_job");
+  // console.log(currentJob);  //? make ai called base on that and generate job-description
 
+  //submit form data and send to store and navigate and track error
   const onFormSubmit = (data : EmploymentSchemaType) => {
     console.log("Form submitted", data);
-    const newObj = { 
-      id:randomId(),
-      ...data
-    };
-    dispatch(addData(newObj));
+    dispatch(addData(data));
+    navigate('/formlayout/education')
   };
   const onFormError = (errors : unknown) => {
     console.error("Form errors", errors);

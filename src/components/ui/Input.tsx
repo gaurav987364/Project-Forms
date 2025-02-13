@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ChangeEvent } from "react"
 import { InputProps } from "../../utils/types"
 import {useFormContext} from "react-hook-form";
 import { FormDataType } from "../../schema/FormSchema";
@@ -35,6 +35,12 @@ const Input:React.FC<InputProps> = ({
         sizes[size],
         className
     ].join("");
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>)=>{
+        if(onChange){
+            onChange(e.target.value as string);
+        }
+    };
   return (
     <div className=" flex flex-col">
         <label htmlFor={name} className=" text-neutral-100 font-medium capitalize">{label}</label>
@@ -43,7 +49,8 @@ const Input:React.FC<InputProps> = ({
                    id={name}
                    placeholder={placeholder}
                    className={styles}
-                   {...(registerField ? registerField : { value, onChange })}    
+                   {...(registerField ? registerField : { value, onChange:handleChange })}  
+
                 />
         {name && errors[name as keyof FormDataType] && (
             <p className="text-red-500 text-xs font-stretch-50% font-mono mt-1">

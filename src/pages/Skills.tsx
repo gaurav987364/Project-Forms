@@ -1,18 +1,24 @@
+// form imports
 import { FormProvider, useForm } from "react-hook-form";
 import { FormSchema } from "../schema/FormSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import { z } from "zod";
+
+// redux imports
 import { useDispatch, useSelector } from "react-redux";
 import { ActionState } from "../store/Store";
 import { addData } from "../slices/DataSlice";
 
+// component imports
 import InputWithDropdown from "../components/ui/InputWithDropDown";
 import Button from "../components/ui/Button";
+import InputWithPills from "../components/ui/InputWithPills";
 
+// icons and helper functions imports
 import { IoArrowForward } from "react-icons/io5";
 import { RiResetLeftFill } from "react-icons/ri";
 import { communications, language, problemSolving, skillsByRole, skillsData } from "../utils/helper";
-import InputWithPills from "../components/ui/InputWithPills";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -31,39 +37,38 @@ const skillsSchema = FormSchema.pick({
 
 type skillsSchemaType = z.infer<typeof skillsSchema>;
 const Skills = () => {
+  const dispatch = useDispatch();
+  const storeData = useSelector((state:ActionState)=> state.formRed);
+  const navigate = useNavigate();
+  
   const methods = useForm<skillsSchemaType>({resolver : zodResolver(skillsSchema),defaultValues:{
-    field : "",
-    sub_field : "",
-    skill : [],
-    role : "",
-    language : language[0],
-    communication : communications[0],
-    technical_skill : "",
-    problem_solving : problemSolving[0],
-    leadership : ""
+    field :storeData.field || "",
+    sub_field : storeData.sub_field ||"",
+    skill : storeData.skill || [],
+    role : storeData.role || "",
+    language : storeData.language || language[0],
+    communication : storeData.communication || communications[0],
+    technical_skill : storeData.technical_skill || "",
+    problem_solving :storeData.problem_solving || problemSolving[0],
+    leadership : storeData.leadership || ""
   }});
 
-  const dispatch = useDispatch();
-  const datas = useSelector((state:ActionState)=> state.formRed);
-  console.log(datas);
 
-  //watch fields
+  //watch fields so that fecth data based on them
   const selectedField = methods.watch("field");
   const selectedSubField = methods.watch("sub_field");
   const selectedRole = methods.watch("role");
 
-  //extarct data from our local data
+  //extarct data from our local data based on condition
   const sub_fields = selectedField ? Object.keys(skillsData[selectedField] || {}) : [];
   const roles = selectedSubField ? skillsData[selectedField]?.[selectedSubField] || [] : [];
   const skills = Object.entries(skillsByRole).find(([roleName]) => roleName === selectedRole);
 
+  //submit form data and send to store and navigate and track error
   const onFormSubmit = (data :  skillsSchemaType) => {
     console.log("Form submitted", data);
-    const newObj = {
-      ...datas,
-      ...data
-    }
-    dispatch(addData(newObj));
+    dispatch(addData(data));
+    navigate('/formlayout/addinfo')
   };
   const onFormError = (errors : unknown) => {
     console.error("Form errors", errors);

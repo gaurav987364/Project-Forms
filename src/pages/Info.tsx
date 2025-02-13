@@ -1,18 +1,26 @@
+//form things
 import { FormProvider, useForm } from "react-hook-form";
 import { FormSchema } from "../schema/FormSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import { z } from "zod";
+
+//store things
 import { useDispatch, useSelector } from "react-redux";
 import { addData } from "../slices/DataSlice";
 import { ActionState } from "../store/Store";
 
+//components things
 import InputWithDropdown from "../components/ui/InputWithDropDown";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 
+// react-icons stuff
 import { IoArrowForward } from "react-icons/io5";
 import { RiResetLeftFill } from "react-icons/ri";
+
+//utils  + dom things
 import { randomId } from "../utils/helper";
+import { useNavigate } from "react-router-dom";
 
 
 //creating an individual schema from main schema
@@ -27,20 +35,21 @@ const infoSchema = FormSchema.pick({
 
 type infoSchemaType = z.infer<typeof infoSchema>;
 const Info = () => {
+  const dispatch = useDispatch();
+  const storeData = useSelector((state:ActionState)=> state.formRed);
+  const navigate = useNavigate();
+
+
   const methods = useForm<infoSchemaType>({resolver : zodResolver(infoSchema),defaultValues:{
-    firstName:"",
-    lastName:"",
-    email:"",
-    gender:"Others",
-    dob:"",
-    phone:""
+    firstName:storeData.firstName || "",
+    lastName:storeData.lastName || "",
+    email:storeData.email || "",
+    gender:storeData.gender || "Others",
+    dob:storeData.dob || "",
+    phone:storeData.phone || ""
   }});
 
-  
-  const dispatch = useDispatch();
-  const datas = useSelector((state:ActionState)=> state.formRed);
-  console.log(datas);
-
+  ///submit form data and send to store and navigate and track error
   const onFormSubmit = (data :  infoSchemaType) => {
     console.log("Form submitted", data);
     const newObj = { 
@@ -48,6 +57,7 @@ const Info = () => {
       ...data
     };
     dispatch(addData(newObj));
+    navigate('/formlayout/address')
   };
   const onFormError = (errors : unknown) => {
     console.error("Form errors", errors);

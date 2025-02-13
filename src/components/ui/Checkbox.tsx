@@ -2,6 +2,8 @@ import { useState, useId, forwardRef, useMemo } from "react";
 import { FiCheck } from "react-icons/fi";
 import type { IconType } from "react-icons/lib";
 import type { ComponentPropsWithoutRef } from "react";
+import { useFormContext } from "react-hook-form";
+import { FormDataType } from "../../schema/FormSchema";
 
 // Types
 type CheckboxSize = "sm" | "md" | "lg";
@@ -57,6 +59,8 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     const checked = isControlled ? controlledChecked : internalChecked;
     const uniqueId = useId();
 
+    const {register} = useFormContext<FormDataType>();
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (!isControlled) setInternalChecked(e.target.checked);
       onChange?.(e);
@@ -96,7 +100,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 
         <label htmlFor={uniqueId} className="relative">
           <input
-            {...props}
+            {...props} // accepts another fields here
             ref={ref}
             id={uniqueId}
             type="checkbox"
@@ -106,6 +110,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             className={inputClasses}
             aria-checked={checked}
             role="checkbox"
+            name={register?.name} // register field to form context for validation
           />
           <div className={checkboxClasses}>
             {checked && <Icon size={ICON_SIZES[size]} className={disabled ? "opacity-50" : ""} aria-hidden="true" />}

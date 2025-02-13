@@ -1,18 +1,26 @@
+//Form things
 import { FormProvider, useForm } from "react-hook-form";
 import { FormSchema } from "../schema/FormSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import { z } from "zod";
+
+// store things
 import { useDispatch, useSelector } from "react-redux";
 import { ActionState } from "../store/Store";
 import { addData } from "../slices/DataSlice";
 
+// components things
 import InputWithDropdown from "../components/ui/InputWithDropDown";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 
+// icons things
 import { IoArrowForward } from "react-icons/io5";
 import { RiResetLeftFill } from "react-icons/ri";
+
+//utils things + react-router-dom stuff
 import { LocationData } from "../utils/helper";
+import { useNavigate } from "react-router-dom";
 
 
 //creating schema for this file from main schema;
@@ -26,17 +34,19 @@ const addressSchema = FormSchema.pick({
 
 type addressSchemaType = z.infer<typeof addressSchema>;
 const Address = () => {
+  const dispatch = useDispatch();
+  const storeData = useSelector((state:ActionState)=> state.formRed);
+  const navigate = useNavigate();
+
+
   const methods = useForm<addressSchemaType>({resolver : zodResolver(addressSchema),defaultValues:{
-    street: '',
-    zip: '',
-    country: '',
-    state: '',
-    city: '',
+    street: storeData.street || '',
+    zip: storeData.zip || '',
+    country: storeData.country || '',
+    state: storeData.state || '',
+    city: storeData.city || '',
   }});
 
-  const dispatch = useDispatch();
-  const datas = useSelector((state:ActionState)=> state.formRed);
-  console.log(datas);
 
   //watch fields
   const selectedCountry = methods.watch("country");
@@ -46,13 +56,11 @@ const Address = () => {
   const states = selectedCountry ? Object.keys(LocationData[selectedCountry] || {}) : [];
   const cities = selectedState ? LocationData[selectedCountry]?.[selectedState] || [] : [];
 
+  //submit form data and send to store and navigate and track error
   const onFormSubmit = (data :  addressSchemaType) => {
     console.log("Form submitted", data);
-    const newObj = {
-      ...datas,
-      ...data
-    }
-    dispatch(addData(newObj));
+    dispatch(addData(data));
+    navigate("/formlayout/employment");
   };
   const onFormError = (errors : unknown) => {
     console.error("Form errors", errors);
@@ -61,7 +69,7 @@ const Address = () => {
     <div  className=" w-full h-full border p-4 sm:p-6 md:p-8 overflow-hidden overflow-y-scroll no-scrollbar">
       <div className=" w-full h-fit">
          <div className=" flex items-center">
-          <h2 className=" text-2xl sm:text-3xl font-semibold">Address🗺️:</h2>
+          <h2 className=" text-2xl sm:text-3xl font-semibold">Address 🗺️ :</h2>
           <span><RiResetLeftFill size={28} fill="antiquewhite" className=" mt-1 cursor-pointer hover:animate-spin"/></span>
          </div>
         <p className=" font-mono text-xs sm:text-sm text-gray-400 capitalize">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur accusantium..</p>

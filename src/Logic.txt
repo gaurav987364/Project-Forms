@@ -1,0 +1,96 @@
+Requirements:-
+1.Good ui
+2.React-hook-form + zod for validation with proper typescripts,
+3.responsiveness,
+4.Sepration of concerns (make individual components)
+5.Data persistence using redux and Context for theme,
+6.Stepper,
+7.Navigation in different components using Rdom.
+
+
+//Tech Stack
+=> React.js, typescripts, redux, context api, react-hook-form, zod, react-router-dom, tailwindV4,React-query.
+
+//Map api => geofyapi
+
+//More things to fix:-
+
+1.Code cleanup and imports managing,
+2.Setup theme system,
+3.Stepper synchronization issues on moving forward and backward with pathname and react-router,
+4.Achieve behavior so that without fillling form user wont go to next step,
+5.Achieve fetching github and likndin  based on url,
+6.Writing more solid zod validation for Phone, zip etc.
+7.Date picker best wala in modal popup,
+8.By submit form all fileds should reset if possible or not so do another things,
+9.Memoiztion,
+10.By accept terms & conditions you go to different summary page in modal popup in which you also edit form data if wants.
+11.Implment backward button for going one step back,
+12.Components ka structure improve krna hhai or smjhana hai ache se.
+13.Make custom hooks for things like addData,updateData in store,or apne hisab se dekhlo bhaiii.
+14.Implment Range system in Employee route
+
+
+
+//stepper fixings
+
+3. Persist Stepper Progress Across Page Reloads
+Use localStorage or sessionStorage to save and restore the currentStep.
+4. Keep Stepper Progress in Sync with Browser Navigation
+Use useLocation() from react-router-dom to detect changes in the URL and update currentStep accordingly.
+Listen for popstate events to detect when the user navigates back using the browser's back button.
+Steps to Fix the Issues
+Store & Retrieve Step Progress in LocalStorage
+
+Save currentStep in localStorage whenever it changes.
+On page load, check localStorage and restore the last known step.
+Sync Stepper with URL Path
+
+Use useLocation() to get the current pathname.
+Match the pathname to the step and update currentStep accordingly.
+Handle Browser Back Button Correctly
+
+Listen to the popstate event.
+Update currentStep based on the URL when the user navigates back.
+
+
+
+//we have to store the step into localStorage
+useState(()=>{
+    const savedStep = localStorage.getItem("currentStep");
+    saveStep ? parseInt(savedStep) : 1
+});
+
+
+//we have to track pathname with current.href so that we keep in syns theme
+const location = useLocation();
+useEffect(()=>{
+    const stepIndex = Steps.findIndex(step => step.href === location.pathname);
+    if(stepIndex !== -1){
+        setCurrentStep(stepIndex+1)
+        localStorage.setItem("currentStep", String(stepIndex+1))
+    }
+},[location])
+
+
+//we add eventlistener to window of popstate event so that when user click back or something url is in sync so that stepper progress also in sync
+useEffect(()=>{
+    const HandlePopState = ()=>{
+        const stepIndex = Steps.findIndex(step => step.href === location.pathname);
+
+        if(stepIndex !== -1){
+            setCurrentStep(stepIndex+1);
+            localStorage.setIte("currentStep",String(stepIndex+1))
+        }
+    }
+
+    window.addEventListen("popstate", HandlePopState);
+    return ()=>{
+        window.addEventListen("popstate", HandlePopState);
+    }
+},[location]);
+
+
+//add two condition in keyboard event
+if(e.key === "ArrowRight" && currentStep < Steps.length)
+if(e.key === "ArrowLeft" && currentStep > 1)
