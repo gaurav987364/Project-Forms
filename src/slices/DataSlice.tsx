@@ -10,7 +10,7 @@ import { FormDataType } from "../schema/FormSchema";
 // const initialState: DataSliceType[] = [];
 
 //new code 
-const initialState: Partial<FormDataType> = {};  // Store in a single object
+const initialState: Partial<FormDataType> = {};  // Store in a single object;
 
 const DataSlice = createSlice({
     name:"data",
