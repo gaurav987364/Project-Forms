@@ -5,7 +5,7 @@ import { IoChevronForward } from "react-icons/io5";
 const Home = () => {
   const navlink = useNavigate();
   const goTo = ()=>{
-    navlink("/formlayout");
+    navlink("/formlayout/info");
   };
   return (
     <div className="relative w-full h-screen bg-slate-950 text-neutral-50">

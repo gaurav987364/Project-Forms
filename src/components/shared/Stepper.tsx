@@ -123,14 +123,14 @@ const Stepper = () => {
             const isComplete = currentStep > index + 1 || isCompleted;
             return (
             <div  
-            ref={(iRef)=>{
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              //@ts-ignore
-              stepRef.current[index] = iRef;
-            }}
-            onClick={()=>handleControls(step,index)} 
-            key={index}  
-            className=" flex flex-col items-center gap-y-1   cursor-pointer"
+              ref={(iRef)=>{
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                stepRef.current[index] = iRef;
+              }}
+              onClick={()=>handleControls(step,index)} 
+              key={index}  
+              className=" flex flex-col items-center gap-y-1   cursor-pointer"
             >
               <p className={`px-2.5 z-10 py-0.5 max-sm:px-3  bg-gray-300  text-black rounded-full font-bold text-lg 
                         ${isActive && "bg-blue-400"}
@@ -140,8 +140,8 @@ const Stepper = () => {
                   {isComplete ? (
                       <span>&#10003;</span>
                   ) : (
-                    <span>{index + 1}</span>
-                   )}
+                      <span>{index + 1}</span>
+                  )}
               </p>
               <span className={`text-sm fontmax-sm:text-xs ${isComplete ?  "text-green-400" : isActive ? "text-pink-500" : ""}`}>
                 {step?.label}
