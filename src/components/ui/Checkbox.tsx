@@ -48,13 +48,12 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       labelClass,
       inputClass,
       checked: controlledChecked,
-      defaultChecked,
       onChange,
       ...props
     },
     ref
   ) => {
-    const [internalChecked, setInternalChecked] = useState(defaultChecked || false);
+    const [internalChecked, setInternalChecked] = useState(false);
     const isControlled = controlledChecked !== undefined;
     const checked = isControlled ? controlledChecked : internalChecked;
     const uniqueId = useId();

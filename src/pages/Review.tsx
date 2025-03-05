@@ -15,30 +15,45 @@ import { addData } from '../slices/DataSlice';
 
 //router imports
 import { useNavigate } from 'react-router-dom';
+import Dialog from '../components/ui/Modal';
+import { useState } from 'react';
+import { SlBadge } from "react-icons/sl";
+import toast from 'react-hot-toast';
 
 const CheckBoxSchema = FormSchema.pick({
-  terms_and_conditions:true
+  terms_and_conditions: true
 });
 type CheckBoxSchemaType = z.infer<typeof CheckBoxSchema>;
 const Review = () => {
   const dispatch = useDispatch();
   const storeData = useSelector((state:ActionState)=> state.formRed);
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const toggleModal = () => {
+    setIsOpen((isOpen) =>!isOpen);
+  };
+
+  const closeModal = () =>{
+    setIsOpen(false);
+  }
 
   const methods = useForm<CheckBoxSchemaType>({resolver:zodResolver(CheckBoxSchema),defaultValues:{
     terms_and_conditions: storeData.terms_and_conditions || false,
   }});
 
-
   //submit form data and send to store and navigate and track error
   const onFormSubmit = (data :CheckBoxSchemaType) => {
-    console.log("Form submitted", data);  //todo: make popup summary report
+    if(!storeData) return;
     dispatch(addData(data));
+    toast.success("Form submitted successfully.")
     methods.reset();
-    navigate('/')
+    navigate('/');
+    console.log(storeData);
   };
   const onFormError = (errors : unknown) => {
     console.error("Form errors", errors);
+    toast.error("Form submission failed");
   };
   return (
     <FormProvider {...methods}>
@@ -138,15 +153,85 @@ const Review = () => {
               )}
             </div>
 
-            <div className="md:col-span-2 flex justify-end">
-                  <Button 
-                    size="lg" 
-                    type="submit"
-                    color="primary" 
-                    className=" bg-pink-500 sm:w-auto font-mono cursor-pointer hover:bg-pink-500/90"
-                  >
-                    Submit
-                  </Button>
+            <div className="md:col-span-2 flex gap-1 justify-end">
+               <Button 
+                size="lg" 
+                type="button"
+                color="primary" 
+                className=" bg-pink-500 sm:w-auto font-mono cursor-pointer hover:bg-pink-500/90"
+                onClick={toggleModal}
+                disabled={!methods.formState.isValid}
+              >
+                Review
+              </Button>
+               <Button 
+                size="lg" 
+                type="submit"
+                color="primary" 
+                className=" bg-pink-500 sm:w-auto font-mono cursor-pointer hover:bg-pink-500/90"
+                disabled={!methods.formState.isValid}
+              >
+                Submit
+              </Button>
+              {isOpen && storeData && (
+                  <Dialog onClose={closeModal}>
+                    <div className=' text-2xl font-bold text-gray-900 mb-4'>Summary</div>
+                    <div className="space-y-2 p-3">
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-800">Personal Information</h3>
+                        <p><span className="font-medium">Name:</span> {storeData.firstName} {storeData.lastName}</p>
+                        <p><span className="font-medium">Email:</span> {storeData.email}</p>
+                        <p><span className="font-medium">Phone:</span> {storeData.phone}</p>
+                        <p><span className="font-medium">Gender:</span> {storeData.gender}</p>
+                        <p><span className="font-medium">DOB:</span> {storeData.dob}</p>
+                      </div>
+                      <div className=' border border-gray-500'/>
+
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-800">
+                          Professional Information
+                        </h3>
+                        <p>
+                          <span className="font-medium">
+                            Current Job:
+                          </span> 
+                          {storeData.current_job} at {storeData.current_company}
+                        </p>
+                        <p>
+                          <span className="font-medium">
+                            Experience:
+                          </span> 
+                          {storeData.years_of_exp}
+                        </p>
+                        <p className=' flex items-center gap-1'><span className="font-medium">Skills:
+                          </span>{storeData?.skill?.map(skill => (
+                            <div className=' flex items-center gap-0.5'>
+                              <SlBadge fill='gray' /> 
+                              {skill}
+                            </div>
+                          ))}
+                        </p>
+                        <p><span className="font-medium">Preferred Locations:</span> {storeData?.preferred_location?.join(', ')}</p>
+                      </div>
+                      <div className=' border border-gray-500'/>
+
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-800">Education</h3>
+                        <p><span className="font-medium">Degree:</span> {storeData.degree} in {storeData.field_of_study}</p>
+                        <p><span className="font-medium">School:</span> {storeData.school_name} ({storeData.school_location})</p>
+                      </div>
+                      <div className=' border border-gray-500'/>
+
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-800">Additional Information</h3>
+                        <p><span className="font-medium">Availability to Start:</span> {storeData.availablity_to_start}</p>
+                        <p><span className="font-medium">Problem Solving:</span> {storeData.problem_solving}</p>
+                        <p><span className="font-medium">Leadership:</span> {storeData.leadership}</p>
+                        <p><span className="font-medium">Technical Skill Level:</span> {storeData.technical_skill}</p>
+                      </div>
+                    </div>
+                  </Dialog>
+              )}
             </div>
           </div>
       </form>

@@ -51,3 +51,21 @@ export interface Field {
     [field : string] : subField;
 }
 //? form types
+
+
+
+//modal types
+export interface ModalProps {
+    isOpen: boolean;
+    onClose: Dispatch<SetStateAction<boolean>>;
+    children: React.ReactNode;
+    className?: string;
+    title?: string;
+    size?:'sm' |'md' | 'lg';
+    backdropClose?: boolean;
+    closeBtn?: boolean;
+    closeBtnText?: string;
+    closeBtnIcon?: React.ReactNode;
+    closeBtnClassName?: string;
+    contentClassName?: string;
+}
