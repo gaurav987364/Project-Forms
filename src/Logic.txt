@@ -94,3 +94,9 @@ useEffect(()=>{
 //add two condition in keyboard event
 if(e.key === "ArrowRight" && currentStep < Steps.length)
 if(e.key === "ArrowLeft" && currentStep > 1)
+
+//const stepIndex = Steps.findIndex(step => step.href === location.pathname);
+if(stepIndex !== -1){
+    setCurrentStep(stepIndex+1);
+    localStorage.setIte("currentStep",String(stepIndex+1))
+}
