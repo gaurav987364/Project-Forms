@@ -8,6 +8,8 @@ input[type="date"] {
     -moz-appearance: none;
     position: relative;
     padding-right: 2.5rem; /* Space for custom icon */
+    font-family: Arial, sans-serif;
+    font-size: 16px;
 }
   
   /* Add a custom calendar icon */
