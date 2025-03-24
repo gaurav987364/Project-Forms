@@ -16,7 +16,6 @@ import Button from "../components/ui/Button";
 
 // icons import
 import { IoArrowForward } from "react-icons/io5";
-import { RiResetLeftFill } from "react-icons/ri";
 
 // utils import
 import { yoe } from "../utils/helper";
@@ -67,8 +66,7 @@ const Employment = () => {
     <div  className=" w-full h-full border p-4 sm:p-6 md:p-8 overflow-hidden overflow-y-scroll no-scrollbar">
       <div className=" w-full h-fit">
          <div className=" flex items-center">
-          <h2 className=" text-2xl sm:text-3xl font-semibold">Employment 🏢 :</h2>
-          <span><RiResetLeftFill size={28} fill="antiquewhite" className=" mt-1 cursor-pointer hover:animate-spin"/></span>
+          <h2 className=" text-2xl sm:text-3xl font-semibold">Employment 🏢</h2>
          </div>
         <p className=" font-mono text-xs sm:text-sm text-gray-400 capitalize">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur accusantium..</p>
       </div>

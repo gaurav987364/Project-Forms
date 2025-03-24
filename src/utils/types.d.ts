@@ -68,4 +68,11 @@ export interface ModalProps {
     closeBtnIcon?: React.ReactNode;
     closeBtnClassName?: string;
     contentClassName?: string;
+};
+
+//data interface
+export interface GithubDataType {
+    avatar_url?: string;
+    name?:string;
+    company?:string
 }

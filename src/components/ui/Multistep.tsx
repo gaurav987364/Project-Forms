@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
     useState,
     useEffect,
@@ -58,7 +59,6 @@ interface Pill extends SuggestionItem {
     iconClassName = "text-gray-500",
     noSuggestionsText = "No suggestions found",
     ariaLabel = "Multi-select input",
-    skill,
     data,
     apiUrl = "",
   }: MultiSelectProps) => {
@@ -70,7 +70,6 @@ interface Pill extends SuggestionItem {
     const inputRef = useRef<HTMLInputElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const listboxId = useId();
-    console.log(data)
   
     // Fetch suggestions
     const fetchUsers = async ()=>{
@@ -80,7 +79,7 @@ interface Pill extends SuggestionItem {
       }
       if (data) {
         setSuggestions(
-          data.filter((item) =>
+          data.filter((item : any) =>
             item.name.toLowerCase().includes(inputValue.toLowerCase())
           )
         );

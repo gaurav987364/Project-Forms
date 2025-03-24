@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef } from "react";
 //form stuff imports
 import { FormProvider, useForm } from "react-hook-form";
@@ -14,7 +15,6 @@ import { ActionState } from "../store/Store";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 import InputWithPills from "../components/ui/InputWithPills";
-import RangePicker from "../components/ui/RangePicker";
 
 // react-icons imports
 import { IoArrowForward, IoLocationSharp } from "react-icons/io5";
@@ -26,6 +26,8 @@ import { LuMessageCircleWarning } from "react-icons/lu";
 import { getAddress, getLatLng, getPreferenceLocation } from "../utils/helper";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { useGithubInfo } from "../hooks/useGithubInfo";
+import GithubCard from "../components/ui/GithubCard";
 
 
 //creating an individual schema from main schema
@@ -57,6 +59,12 @@ const AdditionalInfo = () => {
   
   // Use watch to track the current_location value
   const currentLocation = methods.watch("current_location");
+  const githubUsername = methods.watch("github_url");
+  const name = githubUsername.split("/").pop();
+
+  const data = useGithubInfo(name) as { avatar_url: string; name: string; company: string } | any;
+
+  //fetch github detials
 
    //fetch current location and update latitude and longitude.
   const showCurrentCordinates = async ()=>{
@@ -121,14 +129,25 @@ const AdditionalInfo = () => {
               className=" w-full"
               size="md"
             />
-            <Input 
-              type="url" 
-              name="github_url" 
-              label="Github URL"
-              placeholder="eg: www.github.com/john989976"
-              className=" w-full"
-              size="md"
-            />
+            <div>
+              <Input 
+                type="text" 
+                name="github_url" 
+                label="Github URL"
+                placeholder="eg: www.github.com/john989976"
+                className=" w-full flex-1/3"
+                size="md"
+              />
+              {data && name && (
+                <div className=" w-[250px] h-[7vh] border overflow-hidden">
+                  <GithubCard
+                  avatar_url={data?.avatar_url}
+                  name={data?.name}
+                  company={data?.company}
+                  />
+                </div>
+              )}
+            </div>
             <div>
               <Input 
                 type="text" 
@@ -183,11 +202,7 @@ const AdditionalInfo = () => {
               className=" w-full"
               size="md"
             />
-            <RangePicker
-            
-            />
-            
-
+           
             <div>
               <Button
                className=" border-white text-white cursor-pointer hover:bg-transparent hover:border-gray-400 hover:text-gray-400"

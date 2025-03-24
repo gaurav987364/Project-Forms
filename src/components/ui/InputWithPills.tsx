@@ -20,10 +20,9 @@ const InputWithPills: React.FC<InputWithPillsProps> = ({
   placeholder = "Enter text",
   className = "",
   options,
-  defaultValue = '',
   size = "md",
 }) => {
-  const { register, setValue, watch, formState: { errors } } = useFormContext<FormDataType>();
+  const { register, setValue, formState: { errors } } = useFormContext<FormDataType>();
   const [isOpen, setIsOpen] = useState(false);
   const [skills, setSkills] = useState<string[]>([]);
 
@@ -31,10 +30,7 @@ const InputWithPills: React.FC<InputWithPillsProps> = ({
   const avoidDuplicate = new Set(skills);
   const dataForPill = Array.from(avoidDuplicate);
   
-
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const value = (watch(name as keyof FormDataType)) || defaultValue; // we can put this in value in input field.
+   // we can put this in value in input field.
 
   const outsideDivRef = useRef<HTMLDivElement>(null);
   //setValue is from react-hook-form working as a state variable

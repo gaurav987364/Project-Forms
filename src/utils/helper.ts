@@ -1,5 +1,9 @@
 import { CountryStatesProps, Field, StepsTypes } from "./types";
 
+
+
+
+
 export const Steps : StepsTypes[] = [
     {
         label:"Bio",
@@ -577,6 +581,8 @@ export const getLatLng =async ()=>{
     };
 };
 
+
+
 export const getAddress = async (lat : number, lng : number) => {
     try {
         const response = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&format=json&apiKey=c3a2175dbfe14dca8055b974528b8ea8`);
@@ -627,3 +633,5 @@ export const getPreferenceLocation = [
     "Vadnagar", 
     "Udaipur",
 ];
+
+

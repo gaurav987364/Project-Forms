@@ -1,5 +1,4 @@
 import { FaWpforms } from "react-icons/fa";
-import { LuSunMoon } from "react-icons/lu";
 import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
@@ -11,7 +10,6 @@ const Navbar = () => {
                 Multistep-Forms
               </strong>
           </Link>
-          <LuSunMoon size={25}/>
         </div>
     </div>
   )
